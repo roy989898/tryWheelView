@@ -24,6 +24,7 @@
                 android:id="@+id/wheelview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:lwvCursorSize="100dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"/>
 
@@ -76,7 +77,6 @@
 
         <TextView
             android:id="@+id/changed_tv"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

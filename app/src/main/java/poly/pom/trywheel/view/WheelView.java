@@ -237,6 +237,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
         mCenterIndicatorPath.close();
 
         mMarkPaint.setColor(mHighlightColor);
+//        TODO here to draw the indicator
         canvas.drawPath(mCenterIndicatorPath, mMarkPaint);
 
         int start = mCenterIndex - mViewScopeSize;
