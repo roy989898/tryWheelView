@@ -291,6 +291,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
             }
 
             // mark text
+//            TODO here to hide the txt
             if (mMarkCount > 0 && i >= 0 && i < mMarkCount) {
                 CharSequence temp = mItems.get(i);
                 if (mCenterIndex == i) {
