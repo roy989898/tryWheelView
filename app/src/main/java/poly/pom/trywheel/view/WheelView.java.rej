@@ -1,0 +1,9 @@
+diff a/app/src/main/java/poly/pom/trywheel/view/WheelView.java b/app/src/main/java/poly/pom/trywheel/view/WheelView.java	(rejected hunks)
+@@ -255,6 +255,7 @@
+             start -= mViewScopeSize;
+         }
+ 
++//        float x = start * mIntervalDis;
+         float x = start * mIntervalDis;
+ 
+         float markHeight = mHeight - mBottomSpace - mCenterTextSize - mTopSpace;

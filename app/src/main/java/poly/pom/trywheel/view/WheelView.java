@@ -14,6 +14,7 @@ import android.support.v4.view.ViewCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
@@ -68,6 +69,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
     private int mLastSelectedIndex = -1;
     private int mMinSelectableIndex = Integer.MIN_VALUE;
     private int mMaxSelectableIndex = Integer.MAX_VALUE;
+    private int mWidth;
 
     public WheelView(Context context) {
         super(context);
@@ -216,6 +218,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
         super.onSizeChanged(w, h, oldw, oldh);
         if (w != oldw || h != oldh) {
             mHeight = h;
+            mWidth = w;
             mMaxOverScrollDistance = w / 2.f;
             mContentRectF.set(0, 0, (mMarkCount - 1) * mIntervalDis, h);
             mViewScopeSize = (int) Math.ceil(mMaxOverScrollDistance / mIntervalDis);
@@ -253,6 +256,9 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
             start -= mViewScopeSize;
         }
 
+//        float x = start * mIntervalDis;
+//        TODO here to set the view has 8 box
+        mIntervalDis=mWidth/8f;
         float x = start * mIntervalDis;
 
         float markHeight = mHeight - mBottomSpace - mCenterTextSize - mTopSpace;
@@ -288,8 +294,8 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                 } else {
                     // other small mark
                     //TODO here to diable the small mark
-                   /* mMarkPaint.setStrokeWidth(mMarkWidth);
-                    canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);*/
+                    mMarkPaint.setStrokeWidth(mMarkWidth);
+                    canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);
                 }
             }
 
