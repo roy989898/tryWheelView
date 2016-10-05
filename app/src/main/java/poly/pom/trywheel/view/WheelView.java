@@ -284,6 +284,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                     canvas.drawLine(ox, mTopSpace, ox, mTopSpace + markHeight, mMarkPaint);
                 } else {
                     // other small mark
+                    //TODO here to diable the small mark
                     mMarkPaint.setStrokeWidth(mMarkWidth);
                     canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);
                 }
