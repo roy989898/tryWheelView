@@ -282,6 +282,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                 if (offset == 0) {
                     // center mark
                     mMarkPaint.setStrokeWidth(mCenterMarkWidth);
+//                   TODO make mTopSpace to 0,than the mark will top
                     canvas.drawLine(ox, mTopSpace, ox, mTopSpace + markHeight, mMarkPaint);
                 } else {
                     // other small mark
