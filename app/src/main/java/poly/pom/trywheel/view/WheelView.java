@@ -238,7 +238,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
 
         mMarkPaint.setColor(mHighlightColor);
 //        TODO here to draw the indicator
-        canvas.drawPath(mCenterIndicatorPath, mMarkPaint);
+//        canvas.drawPath(mCenterIndicatorPath, mMarkPaint);
 
         int start = mCenterIndex - mViewScopeSize;
         int end = mCenterIndex + mViewScopeSize + 1;
@@ -283,18 +283,19 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                     // center mark
                     mMarkPaint.setStrokeWidth(mCenterMarkWidth);
 //                   TODO make mTopSpace to 0,than the mark will top
-                    canvas.drawLine(ox, mTopSpace, ox, mTopSpace + markHeight, mMarkPaint);
+//                   TODO set markHeight==mheught,mark will full height
+                    canvas.drawLine(ox, 0, ox, 0 + markHeight, mMarkPaint);
                 } else {
                     // other small mark
                     //TODO here to diable the small mark
-                    mMarkPaint.setStrokeWidth(mMarkWidth);
-                    canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);
+                   /* mMarkPaint.setStrokeWidth(mMarkWidth);
+                    canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);*/
                 }
             }
 
             // mark text
 //            TODO here to hide the txt
-            if (mMarkCount > 0 && i >= 0 && i < mMarkCount) {
+          /*  if (mMarkCount > 0 && i >= 0 && i < mMarkCount) {
                 CharSequence temp = mItems.get(i);
                 if (mCenterIndex == i) {
                     mMarkTextPaint.setColor(mHighlightColor);
@@ -313,7 +314,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                     mMarkTextPaint.setTextSize(mNormalTextSize);
                     canvas.drawText(temp, 0, temp.length(), x, mHeight - mBottomSpace, mMarkTextPaint);
                 }
-            }
+            }*/
 
             x += mIntervalDis;
         }
