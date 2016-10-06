@@ -10,5 +10,14 @@
 		<attr name="lwvMarkTextSize" format="dimension"/>
 		<attr name="lwvCenterMarkTextSize" format="dimension"/>
 		<attr name="lwvAdditionalCenterMark" format="string|reference"/>
+
+		//            attr add by me
+        <attr name="lwvShowIndicator" format="boolean"/>
+        <attr name="lwvHeightOfTheMark" format="float"/>
+        <attr name="lwvDisableSmallMark" format="boolean"/>
+        <attr name="lwvHideThetext" format="boolean"/>
+
+
+
 	</declare-styleable>
 </resources>

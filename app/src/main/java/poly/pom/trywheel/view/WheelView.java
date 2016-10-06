@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.AsyncTask;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.view.GestureDetectorCompat;
@@ -14,7 +15,6 @@ import android.support.v4.view.ViewCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
@@ -70,6 +70,10 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
     private int mMinSelectableIndex = Integer.MIN_VALUE;
     private int mMaxSelectableIndex = Integer.MAX_VALUE;
     private int mWidth;
+    private boolean mShowIndicator;
+    private float mHeightOfTheMark;
+    private boolean mDisableSmallMark;
+    private boolean mHideTheText;
 
     public WheelView(Context context) {
         super(context);
@@ -99,6 +103,11 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
         mNormalTextSize = density * 18;
         mBottomSpace = density * 6;
 
+        mShowIndicator = true;
+        mHeightOfTheMark = 0.8f;
+        mDisableSmallMark = true;
+        mHideTheText = true;
+
         TypedArray ta = attrs == null ? null : getContext().obtainStyledAttributes(attrs, R.styleable.lwvWheelView);
         if (ta != null) {
             mHighlightColor = ta.getColor(R.styleable.lwvWheelView_lwvHighlightColor, mHighlightColor);
@@ -110,6 +119,12 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
             mCenterTextSize = ta.getDimension(R.styleable.lwvWheelView_lwvCenterMarkTextSize, mCenterTextSize);
             mNormalTextSize = ta.getDimension(R.styleable.lwvWheelView_lwvMarkTextSize, mNormalTextSize);
             mCursorSize = ta.getDimension(R.styleable.lwvWheelView_lwvCursorSize, mCursorSize);
+
+//            attr add by me
+            mShowIndicator = ta.getBoolean(R.styleable.lwvWheelView_lwvShowIndicator, mShowIndicator);
+            mHeightOfTheMark = ta.getFloat(R.styleable.lwvWheelView_lwvHeightOfTheMark, mHeightOfTheMark);
+            mDisableSmallMark = ta.getBoolean(R.styleable.lwvWheelView_lwvDisableSmallMark, mDisableSmallMark);
+            mHideTheText = ta.getBoolean(R.styleable.lwvWheelView_lwvHideThetext, mHideTheText);
         }
         mFadeMarkColor = mHighlightColor & 0xAAFFFFFF;
         mIntervalFactor = Math.max(1, mIntervalFactor);
@@ -241,7 +256,8 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
 
         mMarkPaint.setColor(mHighlightColor);
 //        TODO here to draw the indicator
-//        canvas.drawPath(mCenterIndicatorPath, mMarkPaint);
+        if (mShowIndicator)
+            canvas.drawPath(mCenterIndicatorPath, mMarkPaint);
 
         int start = mCenterIndex - mViewScopeSize;
         int end = mCenterIndex + mViewScopeSize + 1;
@@ -258,7 +274,7 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
 
 //        float x = start * mIntervalDis;
 //        TODO here to set the view has 8 box
-        mIntervalDis=mWidth/8f;
+//        mIntervalDis = mWidth / 8f;
         float x = start * mIntervalDis;
 
         float markHeight = mHeight - mBottomSpace - mCenterTextSize - mTopSpace;
@@ -290,37 +306,43 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
                     mMarkPaint.setStrokeWidth(mCenterMarkWidth);
 //                   TODO make mTopSpace to 0,than the mark will top
 //                   TODO set markHeight==mheught,mark will full height
-                    canvas.drawLine(ox, 0, ox, 0 + markHeight, mMarkPaint);
+                    canvas.drawLine(ox, 0, ox, 0 + mHeight * mHeightOfTheMark, mMarkPaint);
                 } else {
                     // other small mark
                     //TODO here to diable the small mark
-                    mMarkPaint.setStrokeWidth(mMarkWidth);
-                    canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);
+                    if (!mDisableSmallMark) {
+                        mMarkPaint.setStrokeWidth(mMarkWidth);
+                        canvas.drawLine(ox, mTopSpace + smallMarkShrinkY, ox, mTopSpace + markHeight - smallMarkShrinkY, mMarkPaint);
+                    }
+
                 }
             }
 
             // mark text
 //            TODO here to hide the txt
-          /*  if (mMarkCount > 0 && i >= 0 && i < mMarkCount) {
-                CharSequence temp = mItems.get(i);
-                if (mCenterIndex == i) {
-                    mMarkTextPaint.setColor(mHighlightColor);
-                    mMarkTextPaint.setTextSize(mCenterTextSize);
-                    if (!TextUtils.isEmpty(mAdditionCenterMark)) {
-                        float off = mAdditionCenterMarkWidth / 2f;
-                        float tsize = mMarkTextPaint.measureText(temp, 0, temp.length());
-                        canvas.drawText(temp, 0, temp.length(), x - off, mHeight - mBottomSpace, mMarkTextPaint);
-                        mMarkTextPaint.setTextSize(mNormalTextSize);
-                        canvas.drawText(mAdditionCenterMark, x + tsize / 2f, mHeight - mBottomSpace, mMarkTextPaint);
+            if (!mHideTheText) {
+                if (mMarkCount > 0 && i >= 0 && i < mMarkCount) {
+                    CharSequence temp = mItems.get(i);
+                    if (mCenterIndex == i) {
+                        mMarkTextPaint.setColor(mHighlightColor);
+                        mMarkTextPaint.setTextSize(mCenterTextSize);
+                        if (!TextUtils.isEmpty(mAdditionCenterMark)) {
+                            float off = mAdditionCenterMarkWidth / 2f;
+                            float tsize = mMarkTextPaint.measureText(temp, 0, temp.length());
+                            canvas.drawText(temp, 0, temp.length(), x - off, mHeight - mBottomSpace, mMarkTextPaint);
+                            mMarkTextPaint.setTextSize(mNormalTextSize);
+                            canvas.drawText(mAdditionCenterMark, x + tsize / 2f, mHeight - mBottomSpace, mMarkTextPaint);
+                        } else {
+                            canvas.drawText(temp, 0, temp.length(), x, mHeight - mBottomSpace, mMarkTextPaint);
+                        }
                     } else {
+                        mMarkTextPaint.setColor(mMarkTextColor);
+                        mMarkTextPaint.setTextSize(mNormalTextSize);
                         canvas.drawText(temp, 0, temp.length(), x, mHeight - mBottomSpace, mMarkTextPaint);
                     }
-                } else {
-                    mMarkTextPaint.setColor(mMarkTextColor);
-                    mMarkTextPaint.setTextSize(mNormalTextSize);
-                    canvas.drawText(temp, 0, temp.length(), x, mHeight - mBottomSpace, mMarkTextPaint);
                 }
-            }*/
+            }
+
 
             x += mIntervalDis;
         }
@@ -532,6 +554,27 @@ public class WheelView extends View implements GestureDetector.OnGestureListener
         scrollBy((int) dis, 0);
         refreshCenter();
         return true;
+    }
+
+    public void setTheRange(final double min, final double max, final double step) {
+        new AsyncTask<Void, Void, List<String>>() {
+            @Override
+            protected List<String> doInBackground(Void... params) {
+                List<String> items = new ArrayList<>();
+                for (double i = min; i <= max; i += step) {
+                    items.add(i + "");
+                }
+                return items;
+            }
+
+            @Override
+            protected void onPostExecute(List<String> items) {
+                super.onPostExecute(items);
+                WheelView.this.setItems(items);
+            }
+        }.execute();
+
+
     }
 
     @Override

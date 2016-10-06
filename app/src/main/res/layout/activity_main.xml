@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,13 +19,30 @@
             android:orientation="vertical">
 
             <poly.pom.trywheel.view.WheelView
+                android:id="@+id/wheelPom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_red_light"
+                app:lwvCursorSize="7dp"
+                app:lwvDisableSmallMark="true"
+                app:lwvHeightOfTheMark="0.7"
+                app:lwvHideThetext="true"
+                app:lwvHighlightColor="#7CD717"
+                app:lwvIntervalFactor="1.1"
+                app:lwvShowIndicator="false" />
+
+            <poly.pom.trywheel.view.WheelView
                 android:id="@+id/wheelview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:lwvIntervalFactor="1.1"
-                app:lwvCursorSize="100dp"
                 android:layout_marginTop="8dp"
-                android:background="@android:color/white"/>
+                android:background="@android:color/white"
+                app:lwvCursorSize="7dp"
+                app:lwvDisableSmallMark="true"
+                app:lwvHeightOfTheMark="0.7"
+                app:lwvHideThetext="true"
+                app:lwvIntervalFactor="1.1"
+                app:lwvShowIndicator="false" />
 
             <poly.pom.trywheel.view.WheelView
                 android:id="@+id/wheelview2"
@@ -36,7 +51,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@android:color/white"
                 app:lwvHighlightColor="#7CD717"
-                app:lwvIntervalFactor="1.1"/>
+                app:lwvIntervalFactor="1.1" />
 
             <poly.pom.trywheel.view.WheelView
                 android:id="@+id/wheelview3"
@@ -47,7 +62,7 @@
                 app:lwvHighlightColor="#31B1E6"
                 app:lwvIntervalFactor="1.3"
                 app:lwvMarkRatio="0.2"
-                app:lwvMarkTextColor="#919191"/>
+                app:lwvMarkTextColor="#919191" />
 
         </LinearLayout>
 
@@ -60,7 +75,7 @@
             app:lwvAdditionalCenterMark="元"
             app:lwvHighlightColor="#31B1E6"
             app:lwvMarkColor="#EEEEEE"
-            app:lwvMarkTextColor="#CACACA"/>
+            app:lwvMarkTextColor="#CACACA" />
 
         <poly.pom.trywheel.view.WheelView
             android:id="@+id/wheelview5"
@@ -74,20 +89,20 @@
             app:lwvHighlightColor="#31B1E6"
             app:lwvMarkColor="#EEEEEE"
             app:lwvMarkTextColor="#CACACA"
-            app:lwvMarkTextSize="12sp"/>
+            app:lwvMarkTextSize="12sp" />
 
         <TextView
             android:id="@+id/changed_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:gravity="center"/>
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/selected_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:gravity="center"/>
+            android:gravity="center" />
     </LinearLayout>
 </ScrollView>

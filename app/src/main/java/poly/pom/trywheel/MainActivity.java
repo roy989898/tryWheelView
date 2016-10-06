@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     private WheelView mWheelView, mWheelView2, mWheelView3, mWheelView4, mWheelView5;
     private TextView mSelectedTv, mChangedTv;
+    private WheelView wheelPom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mWheelView = (WheelView) findViewById(R.id.wheelview);
+        wheelPom = (WheelView) findViewById(R.id.wheelPom);
         mWheelView2 = (WheelView) findViewById(R.id.wheelview2);
         mWheelView3 = (WheelView) findViewById(R.id.wheelview3);
         mWheelView4 = (WheelView) findViewById(R.id.wheelview4);
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 1; i <= 40; i++) {
             items.add(String.valueOf(i * 1000));
         }
+
+        wheelPom.setTheRange(0, 100000, 500);
 
         mWheelView.setItems(items);
         mWheelView.selectIndex(8);
@@ -84,6 +88,18 @@ public class MainActivity extends AppCompatActivity {
         mSelectedTv.setText(String.format("onWheelItemSelected：%1$s", ""));
         mChangedTv.setText(String.format("onWheelItemChanged：%1$s", ""));
 
+
+        wheelPom.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+            @Override
+            public void onWheelItemSelected(WheelView wheelView, int position) {
+                mSelectedTv.setText(String.format("onWheelItemSelected：%1$s", wheelView.getItems().get(position)));
+            }
+
+            @Override
+            public void onWheelItemChanged(WheelView wheelView, int position) {
+                mChangedTv.setText(String.format("onWheelItemChanged：%1$s", wheelView.getItems().get(position)));
+            }
+        });
         mWheelView5.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
             public void onWheelItemSelected(WheelView wheelView, int position) {
